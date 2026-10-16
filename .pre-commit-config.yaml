@@ -10,11 +10,6 @@ repos:
         entry: uv run --frozen python -m pre_commit_hooks.trailing_whitespace_fixer
         language: system
         types: [text]
-      - id: end-of-file-fixer
-        name: Fix final newlines
-        entry: uv run --frozen python -m pre_commit_hooks.end_of_file_fixer
-        language: system
-        types: [text]
       - id: check-yaml
         name: Check YAML
         entry: uv run --frozen python -m pre_commit_hooks.check_yaml
