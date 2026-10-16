@@ -1,0 +1,96 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "todo-application-api"
+version = "0.1.0"
+description = "A small FastAPI service for learning pytest, pre-commit, and GitHub Actions."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "pydantic[email]>=2.10,<3",
+    "uvicorn>=0.32,<1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.1,<27",
+    "httpx2>=2.13,<3",
+    "isort>=7,<9",
+    "mypy>=1.15,<2",
+    "pre-commit>=4.5,<5",
+    "pre-commit-hooks>=6,<7",
+    "pydoclint>=0.8,<1",
+    "pytest>=9,<10",
+    "pytest-cov>=7,<8",
+    "ruff>=0.14,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/todo_api"]
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+src_paths = ["src", "tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["A", "B", "C4", "C90", "D", "E", "F", "FAST", "N", "PT", "RUF", "S", "SIM", "UP", "W"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+
+[tool.pydoclint]
+style = "numpy"
+check-return-types = false
+check-yield-types = false
+check-class-attributes = false
+skip-checking-short-docstrings = false
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src", "scripts", "tests"]
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+    "--import-mode=importlib",
+    "--cov=todo_api",
+    "--cov-branch",
+    "--cov-report=term-missing",
+    "--cov-fail-under=95",
+]
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+source = ["todo_api"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.uv]
+required-version = ">=0.11.22"

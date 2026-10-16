@@ -1,0 +1,74 @@
+minimum_pre_commit_version: "4.5.0"
+default_stages: [pre-commit]
+
+# Local hooks reuse the exact dependency versions recorded in uv.lock.
+repos:
+  - repo: local
+    hooks:
+      - id: trailing-whitespace
+        name: Remove trailing whitespace
+        entry: uv run --frozen python -m pre_commit_hooks.trailing_whitespace_fixer
+        language: system
+        types: [text]
+      - id: end-of-file-fixer
+        name: Fix final newlines
+        entry: uv run --frozen python -m pre_commit_hooks.end_of_file_fixer
+        language: system
+        types: [text]
+      - id: check-yaml
+        name: Check YAML
+        entry: uv run --frozen python -m pre_commit_hooks.check_yaml
+        language: system
+        types: [yaml]
+      - id: check-toml
+        name: Check TOML
+        entry: uv run --frozen python -m pre_commit_hooks.check_toml
+        language: system
+        types: [toml]
+      - id: check-merge-conflict
+        name: Check merge conflicts
+        entry: uv run --frozen python -m pre_commit_hooks.check_merge_conflict
+        language: system
+        types: [text]
+      - id: check-added-large-files
+        name: Check large files
+        entry: uv run --frozen python -m pre_commit_hooks.check_added_large_files --maxkb=500 --enforce-all
+        language: system
+      - id: debug-statements
+        name: Check debug statements
+        entry: uv run --frozen python -m pre_commit_hooks.debug_statement_hook
+        language: system
+        types: [python]
+      - id: isort
+        name: Sort imports with isort
+        entry: uv run --frozen isort
+        language: system
+        types: [python]
+      - id: black
+        name: Format Python with Black
+        entry: uv run --frozen black
+        language: system
+        types: [python]
+      - id: ruff
+        name: Lint Python with Ruff
+        entry: uv run --frozen ruff check --fix
+        language: system
+        types: [python]
+      - id: pydoclint
+        name: Validate NumPy docstrings
+        entry: uv run --frozen pydoclint --config=pyproject.toml
+        language: system
+        types: [python]
+        files: ^(src/|scripts/)
+      - id: function-spacing
+        name: Check function blank lines
+        entry: uv run --frozen python scripts/check_function_spacing.py
+        language: system
+        types: [python]
+      - id: mypy
+        name: Check types with mypy
+        entry: uv run --frozen mypy
+        language: system
+        pass_filenames: false
+        always_run: true
+        require_serial: true

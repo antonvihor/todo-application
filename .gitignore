@@ -1,0 +1,25 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+
+# Quality tools and test reports
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+junit.xml
+
+# Editors and local configuration
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.*
+!.env.example
